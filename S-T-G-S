@@ -1,0 +1,84 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+// Structure to store student details
+struct Student {
+    string name;
+    double grade;
+};
+
+// Function to display all students and their grades
+void displayStudents(const vector<Student>& students) {
+    if (students.empty()) {
+        cout << "No students found!\n";
+        return;
+    }
+
+    cout << "\nStudent List:\n";
+    for (size_t i = 0; i < students.size(); ++i) {
+        cout << i + 1 << ". " << students[i].name << " - Grade: " << students[i].grade << endl;
+    }
+}
+
+// Function to calculate and display statistics
+void displayStatistics(const vector<Student>& students) {
+    if (students.empty()) {
+        cout << "No students available for statistics.\n";
+        return;
+    }
+
+    double sum = 0, highest = students[0].grade, lowest = students[0].grade;
+    for (const auto& student : students) {
+        sum += student.grade;
+        if (student.grade > highest) highest = student.grade;
+        if (student.grade < lowest) lowest = student.grade;
+    }
+
+    double average = sum / students.size();
+
+    cout << "\nGrade Statistics:\n";
+    cout << "Average Grade: " << average << endl;
+    cout << "Highest Grade: " << highest << endl;
+    cout << "Lowest Grade: " << lowest << endl;
+}
+
+int main() {
+    vector<Student> students;
+    int choice;
+
+    do {
+        // Menu options
+        cout << "\nStudent Grade Management System\n";
+        cout << "1. Add Student\n2. Display Students\n3. Show Statistics\n4. Exit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+        cin.ignore(); // Clear input buffer
+
+        if (choice == 1) { // Add Student
+            Student s;
+            cout << "Enter student name: ";
+            getline(cin, s.name);
+            cout << "Enter student grade: ";
+            cin >> s.grade;
+            students.push_back(s);
+            cout << "Student added successfully!\n";
+
+        } else if (choice == 2) { // Display Students
+            displayStudents(students);
+
+        } else if (choice == 3) { // Show Statistics
+            displayStatistics(students);
+
+        } else if (choice == 4) { // Exit
+            cout << "Goodbye!\n";
+
+        } else {
+            cout << "Invalid choice! Please try again.\n";
+        }
+
+    } while (choice != 4);
+
+    return 0;
+}
